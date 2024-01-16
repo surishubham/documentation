@@ -42,7 +42,7 @@ module.exports = {
         nodes: [
           {
             host: process.env.HOST,
-            port: process.env.PORT,
+            port: 443,
             protocol: 'https',
           },
         ],
