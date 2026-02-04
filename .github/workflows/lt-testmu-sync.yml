@@ -11,20 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate GitHub App Token
-        uses: LambdatestIncPrivate/create_github_app_token@v1
-        id: token
-        with:
-          app-id: ${{ vars.LT_USER_ACCESS_TOKEN_APP_ID }}
-          private-key: ${{ secrets.LT_USER_ACCESS_TOKEN_PRIVATE_KEY }}
-          installation-id: ${{ secrets.GH_APP_INSTALLATION_ID }}
-          repositories: "documentation"
-          permissions: "write"
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ steps.token.outputs.token }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Configure Git
         run: |
@@ -38,7 +28,7 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
 
           # Add upstream remote
-          git remote add upstream https://x-access-token:${{ steps.token.outputs.token }}@github.com/LambdaTest/documentation.git
+          git remote add upstream https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/LambdaTest/documentation.git
 
           # Fetch upstream lt-docs branch
           git fetch upstream lt-docs
